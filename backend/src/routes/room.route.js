@@ -1,9 +1,8 @@
 import express from "express";
-import { createRoom } from "../controllers/roomController";
+import { createRoom , getRooms } from "../controllers/roomController";
 
 const router = express.Router();
 
 
 router.post("/create" , createRoom);
-
-router.delete("/delete" , deleteRoom)
+router.get("/get", getRooms);

@@ -43,6 +43,26 @@ export const createRoom = async (req, res) => {
     }
 }
 
+export const getRooms = async (req , res)=>{
+    try {
+        const rooms = await Room.find();
+        res.status(200).json({
+            rooms:rooms.map(room =>{
+                return{
+                    id:room._id,
+                    name:room.name,
+                    createdBy:room.createdBy,
+                    isPrivate:room.isPrivate,
+                    createdAt:room.createdAt,
+                }
+            })
+        })
+        
+    } catch (error) {
+        
+    }
+}
+
 const deleteRoom = async (req, res) => {
     
 }
