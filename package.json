@@ -1,0 +1,23 @@
+{
+  "name": "termchat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main/main.js",
+  "scripts": {
+    "electron": "wait-on http://localhost:5173 && electron .",
+    "server": "cd backend && npm run start",
+    "client": "cd client && npm run dev",
+    "start": "concurrently \"npm run server\" \"npm run client\" \"npm run electron\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "concurrently": "^9.2.0",
+    "electron": "^37.2.0"
+  },
+  "devDependencies": {
+    "wait-on": "^8.0.3"
+  }
+}

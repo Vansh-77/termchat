@@ -1,0 +1,28 @@
+import mongoose from 'mongoose'
+import bcrypt from "bcryptjs"
+
+const roomSchema = new mongoose.Schema({
+    name:{
+       type:String,
+       required:true
+    },
+    createdby:{
+        type:String,
+        required:true
+    },
+    isPrivate:{
+        type:Boolean,
+        required:true,
+        default:false,
+    },
+    password:{
+        type:String,
+    }
+},{timestamps:true});
+
+userSchema.methods.comparePassword = async function(password){
+    return await bcrypt.compare(password,this.password);
+}
+
+const Room = new mongoose.model("Room",roomSchema);
+export default Room;
