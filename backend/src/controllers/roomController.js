@@ -62,7 +62,3 @@ export const getRooms = async (req , res)=>{
         
     }
 }
-
-const deleteRoom = async (req, res) => {
-    
-}
