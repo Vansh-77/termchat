@@ -1,4 +1,4 @@
-import Room from "../models/room.model"
+import Room from "../models/room.model.js"
 import bcrypt from "bcryptjs"
 
 export const createRoom = async (req, res) => {

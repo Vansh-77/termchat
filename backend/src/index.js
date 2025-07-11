@@ -2,8 +2,9 @@ import express from "express"
 import {Server} from "socket.io"
 import http from "node:http"
 import cors from 'cors';
-import { connectDB } from "./config/db";
-import {socket} from "./socket/index";
+import { connectDB } from "./config/db.js";
+import socket from "./socket/index.js";
+import roomRoutes from "./models/room.model.js";
 
 const app = express();
 const server = http.createServer(app);
