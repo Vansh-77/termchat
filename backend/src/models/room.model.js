@@ -6,7 +6,7 @@ const roomSchema = new mongoose.Schema({
        type:String,
        required:true
     },
-    createdby:{
+    createdBy:{
         type:String,
         required:true
     },

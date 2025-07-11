@@ -3,7 +3,7 @@ import { FaHeart } from "react-icons/fa";
 
 const Footer = () => {
     return (
-        <div className="flex w-screen bg-white border-t-4 border-black h-20 mt-40 items-center justify-between px-6 font-mono text-black text-sm">
+        <div className="flex w-screen bg-white border-t-4 border-black h-20 items-center justify-between px-6 font-mono text-black text-sm">
             <div className='flex gap-3 items-center'>
             <p>Built for devs with</p>
             <FaHeart />
@@ -17,7 +17,7 @@ const Footer = () => {
                 >
                     GitHub
                 </a>
-                <a href="/docs" className="underline hover:text-blue-600">
+                <a href="" className="underline hover:text-blue-600">
                     Docs
                 </a>
             </div>

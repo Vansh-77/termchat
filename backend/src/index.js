@@ -4,7 +4,7 @@ import http from "node:http"
 import cors from 'cors';
 import { connectDB } from "./config/db.js";
 import socket from "./socket/index.js";
-import roomRoutes from "./models/room.model.js";
+import roomRoutes from "./routes/room.route.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -14,6 +14,9 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/room",roomRoutes);
+app.get("/", (req,res)=>{
+    res.send("Welcome to TermChat API");
+})
 
 socket(io);
 

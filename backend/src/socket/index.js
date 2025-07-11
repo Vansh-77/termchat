@@ -51,7 +51,7 @@ export default function (io) {
                 socket.leave(roomId);
                 const members = Array.from(RoomMembers.get(roomId)|| []);
                 io.to(roomId).emit("roomMembers",members);
-                socket.emit("success",`left room ${roomId}`)
+                socket.emit("disconnected",`left room ${roomId}`)
             }
             else{
                 socket.emit("error", "You are not a member of this room");
