@@ -4,7 +4,7 @@ const RoomMembers = new Map();
 
 export default function (io) {
     io.on("connection", (socket) => {
-        socket.on("joinRoom", async (roomId, userName, password) => {
+        socket.on("joinRoom", async ({roomId, username, password}) => {
             try {
                 const room = await Room.findById(roomId);
                 if (!room) {
@@ -22,29 +22,39 @@ export default function (io) {
                         return;
                     }
                     socket.join(roomId);
-
                     if (!RoomMembers.has(roomId)) {
                         RoomMembers.set(roomId, new Set());
                     }
-                    RoomMembers.get(roomId).add(userName);
+                    RoomMembers.get(roomId).add(username);
                     const members = Array.from(RoomMembers.get(roomId));
-                    io.to(roomId).emit("roomMembers", members);
+                    console.log(members);
                     socket.emit("success", `Joined room ${room.name}`);
+                    io.to(roomId).emit("roomMembers", members);
+                }else{
+                     socket.join(roomId);
+                    if (!RoomMembers.has(roomId)) {
+                        RoomMembers.set(roomId, new Set());
+                    }
+                    RoomMembers.get(roomId).add(username);
+                    const members = Array.from(RoomMembers.get(roomId));
+                    socket.emit("success", `Joined room ${room.name}`);
+                    io.to(roomId).emit("roomMembers", members);
                 }
             } catch (error) {
                 socket.emit("error", "An error occurred");
+                console.log(error);
             }
         });
-        socket.on("sendMessage", (roomId, userName, message) => {
-            if (!RoomMembers.has(roomId) || !RoomMembers.get(roomId).has(userName)) {
+        socket.on("sendMessage", ({roomId, username, message}) => {
+            if (!RoomMembers.has(roomId) || !RoomMembers.get(roomId).has(username)) {
                 socket.emit("error", "You are not a member of this room");
                 return;
             }
-            io.to(roomId).emit("message", { userName, message });
+            io.to(roomId).emit("message", { username, message });
         });
-        socket.on("disconnect", (roomId, userName) => {
-            if (RoomMembers.has(roomId) && RoomMembers.get(roomId).has(userName)) {
-                RoomMembers.get(roomId).delete(userName);
+        socket.on("disconnect", ({roomId, username}) => {
+            if (RoomMembers.has(roomId) && RoomMembers.get(roomId).has(username)) {
+                RoomMembers.get(roomId).delete(username);
                 if (RoomMembers.get(roomId).size === 0){
                     RoomMembers.delete(roomId);
                 }

@@ -4,12 +4,15 @@ import './App.css'
 import Navbar from '../components/Navbar';
 import { FaTools, FaSearch } from "react-icons/fa";
 import Footer from '../components/Footer';
-import Room from '../../backend/src/models/room.model';
 import RoomCard from '../components/RoomCard';
+import { ToastContainer, toast } from 'react-toastify';
 
 const App = () => {
 
     const [RoomList, setRoomList] = useState([]);
+    const [roomMembers, setroomMembers] = useState([]);
+    const [mode, setMode] = useState(null);
+    const [username, setusername] = useState('');
 
     useEffect(() => {
         async function fetchRooms() {
@@ -19,6 +22,29 @@ const App = () => {
         }
         fetchRooms();
     }, []);
+
+    const handleJoinRoom = (roomId, password) => {
+        if (!username) {
+            toast.error("please enter a username");
+            return;
+        }
+        const Private = RoomList.find(room => room.id === roomId).isPrivate;
+        if (Private && !password) {
+            toast.error("Please enter the password for the private room");
+            return;
+        }
+        socket.emit('joinRoom', { roomId, username, password });
+        socket.on('error', (message) => {
+            toast.error(message);
+        })
+        socket.on('success', (message) => {
+            console.log(message);
+        });
+        socket.on('roomMembers', (members) => {
+            console.log(members);
+            setroomMembers(members);
+        });
+    }
 
     const SelectMode = () => {
         return (<div className='flex h-120 flex-row w-screen justify-center gap-50 items-center text-3xl '>
@@ -40,16 +66,10 @@ const App = () => {
             <div className='flex flex-col p-10 min-h-120 items-center justify-start gap-10 w-screen'>
                 <h1 className='text-5xl'>Available Rooms</h1>
                 <div className='flex flex-wrap w-[80%] gap-15 gap-x-20 justify-center'>
-                    {RoomList.map((room) => <RoomCard key={room.id} item={room} />)}
+                    {RoomList.map((room) => <RoomCard key={room.id} item={room} onJoin={handleJoinRoom} />)}
                 </div>
             </div>);
     }
-
-
-
-    const [mode, setMode] = useState(null);
-    const [username, setusername] = useState('');
-
     return (<>
         <Navbar />
         <div className='flex flex-col items-center justify-center font-mono pt-20 bg-sky-100 bg-[linear-gradient(to_right,grey_1px,transparent_1px),linear-gradient(to_bottom,grey_1px,transparent_1px)] bg-[size:4rem_4rem]'>
@@ -67,6 +87,7 @@ const App = () => {
                     : <div></div>
             }
             <Footer />
+            <ToastContainer theme='dark' />
         </div>
     </>
     );

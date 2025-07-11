@@ -8,7 +8,7 @@ import roomRoutes from "./routes/room.route.js";
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server, {cors:{origin:"*"}});
+const io = new Server(server, {cors:{origin:"*",methods:["GET", "POST"]}});
 
 app.use(express.json());
 app.use(cors());
