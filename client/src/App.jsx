@@ -6,13 +6,20 @@ import { FaTools, FaSearch } from "react-icons/fa";
 import Footer from '../components/Footer';
 import RoomCard from '../components/RoomCard';
 import { ToastContainer, toast } from 'react-toastify';
+import { useRoomStore } from '../store/RoomStore';
+import { useNavigate } from 'react-router';
 
 const App = () => {
-
+    const navigate = useNavigate();
     const [RoomList, setRoomList] = useState([]);
-    const [roomMembers, setroomMembers] = useState([]);
     const [mode, setMode] = useState(null);
-    const [username, setusername] = useState('');
+    const { roomId, username, setroomMembers, setusername, reset, setroomId, setRoomName } = useRoomStore();
+
+    useEffect(() => {
+        socket.emit("leave-room", { roomId, username });
+        reset();
+        sessionStorage.clear();
+    }, []);
 
     useEffect(() => {
         async function fetchRooms() {
@@ -23,26 +30,30 @@ const App = () => {
         fetchRooms();
     }, []);
 
-    const handleJoinRoom = (roomId, password) => {
+    const handleJoinRoom = (room, password) => {
+        const roomId = room.id;
         if (!username) {
             toast.error("please enter a username");
             return;
         }
-        const Private = RoomList.find(room => room.id === roomId).isPrivate;
+        const Private = room.isPrivate;
         if (Private && !password) {
             toast.error("Please enter the password for the private room");
             return;
         }
         socket.emit('joinRoom', { roomId, username, password });
-        socket.on('error', (message) => {
+        socket.once('error', (message) => {
             toast.error(message);
+            return;
         })
-        socket.on('success', (message) => {
-            console.log(message);
-        });
-        socket.on('roomMembers', (members) => {
-            console.log(members);
+        socket.once('roomMembers', (members) => {
             setroomMembers(members);
+        });
+        socket.once('success', (message) => {
+            setroomId(roomId);
+            setRoomName(room.name);
+            setMode(null);
+            navigate('/chat');
         });
     }
 

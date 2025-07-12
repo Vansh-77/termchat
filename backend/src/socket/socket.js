@@ -45,14 +45,34 @@ export default function (io) {
                 console.log(error);
             }
         });
-        socket.on("sendMessage", ({roomId, username, message}) => {
-            if (!RoomMembers.has(roomId) || !RoomMembers.get(roomId).has(username)) {
+        socket.on("sendMessage", async ({roomId, username, message , password}) => {
+            try {
+                if (!RoomMembers.has(roomId) || !RoomMembers.get(roomId).has(username)) {
                 socket.emit("error", "You are not a member of this room");
                 return;
             }
-            io.to(roomId).emit("message", { username, message });
-        });
-        socket.on("disconnect", ({roomId, username}) => {
+            const room = await Room.findById(roomId);
+            if(room.isPrivate && ! password){
+                socket.emit("error", "Password is requied for private room");
+                return;
+            }
+            if(room.isPrivate && password){
+                const isMatch = await room.comparePassword(password);
+                if (!isMatch) {
+                    socket.emit("error", "Invalid password");
+                    return;
+                }
+                io.to(roomId).emit("message", { username, message });
+            }
+            if(!room.isPrivate){
+                io.to(roomId).emit("message", { username, message });
+            }
+        } catch (error) {
+            socket.emit("error", "An error occurred");
+            console.log(error);
+        }
+    });
+        socket.on("leave-room", ({roomId, username}) => {
             if (RoomMembers.has(roomId) && RoomMembers.get(roomId).has(username)) {
                 RoomMembers.get(roomId).delete(username);
                 if (RoomMembers.get(roomId).size === 0){
@@ -67,6 +87,5 @@ export default function (io) {
                 socket.emit("error", "You are not a member of this room");
             }
         });
-        
     });
 }
