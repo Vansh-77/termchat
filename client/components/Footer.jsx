@@ -1,13 +1,13 @@
 import React from 'react'
-import { FaHeart } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 
 const Footer = () => {
     return (
         <div className="flex w-screen bg-white border-t-4 border-black h-20 items-center justify-between px-6 font-mono text-black text-sm">
             <div className='flex gap-3 items-center'>
-            <p>Built for devs with</p>
-            <FaHeart />
-            <p>by TermChat</p>
+            <p>Built By</p>
+            <a className='flex gap-1 items-center underline' href='https://x.com/vb1vb1vb1' target='_blank'><FaXTwitter/>Oreo</a>
+            <p>Version: v1.0.0</p>
             </div>
             <div className="flex gap-4">
                 <a

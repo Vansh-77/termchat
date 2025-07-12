@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, createRef } from 'react'
 import socket from '../socket/socket';
 import './App.css'
 import Navbar from '../components/Navbar';
@@ -8,11 +8,13 @@ import RoomCard from '../components/RoomCard';
 import { ToastContainer, toast } from 'react-toastify';
 import { useRoomStore } from '../store/RoomStore';
 import { useNavigate } from 'react-router';
+import CreateForm from '../components/CreateForm';
 
 const App = () => {
     const navigate = useNavigate();
+    const roomListRef = useRef(null)
     const [RoomList, setRoomList] = useState([]);
-    const [mode, setMode] = useState(null);
+    const createRef = useRef(null);
     const { roomId, username, setroomMembers, setusername, reset, setroomId, setRoomName } = useRoomStore();
 
     useEffect(() => {
@@ -20,13 +22,12 @@ const App = () => {
         reset();
         sessionStorage.clear();
     }, []);
-
-    useEffect(() => {
-        async function fetchRooms() {
+    async function fetchRooms() {
             const res = await fetch("http://localhost:3000/room/get");
             const data = await res.json();
             setRoomList(data.rooms);
         }
+    useEffect(() => {
         fetchRooms();
     }, []);
 
@@ -57,28 +58,33 @@ const App = () => {
         });
     }
 
-    const SelectMode = () => {
+    const Buttons = () => {
         return (<div className='flex h-120 flex-row w-screen justify-center gap-50 items-center text-3xl '>
-            <div className='flex flex-col gap-2 items-center justify-center bg-[#5294FF] h-80 w-80 rounded-xl border-3 shadow-[6px_6px_0px_black] hover:cursor-pointer'>
+            <div
+                onClick={() => { createRef.current.scrollIntoView({ behavior: "smooth", block: "center" }); }}
+                className='flex flex-col gap-2 items-center justify-center bg-[#5294FF] h-80 w-80 rounded-xl border-3 shadow-[6px_6px_0px_black] hover:cursor-pointer'>
                 <FaTools size={40} />
                 Create Room
             </div>
             <div
-                onClick={() => setMode('join')}
+                onClick={() => { roomListRef.current.scrollIntoView({ behavior: "smooth" }) }}
                 className='flex flex-col gap-2 items-center justify-center bg-[#5294FF] h-80 w-80 rounded-xl border-3 shadow-[6px_6px_0px_black] hover:cursor-pointer'>
                 <FaSearch size={40} />
                 Join Room
             </div>
+
         </div>);
     }
 
     const RoomListcomponent = () => {
         return (
-            <div className='flex flex-col p-10 min-h-120 items-center justify-start gap-10 w-screen'>
+            <div className='flex flex-col pt-0 p-10 min-h-120 items-center justify-start gap-10 w-screen'>
                 <h1 className='text-5xl'>Available Rooms</h1>
+                <div ref={roomListRef} />
                 <div className='flex flex-wrap w-[80%] gap-15 gap-x-20 justify-center'>
                     {RoomList.map((room) => <RoomCard key={room.id} item={room} onJoin={handleJoinRoom} />)}
                 </div>
+
             </div>);
     }
     return (<>
@@ -93,10 +99,9 @@ const App = () => {
                     placeholder='Enter your username'
                 />
             </div>
-            {!mode ? <SelectMode />
-                : mode === 'join' ? <RoomListcomponent />
-                    : <div></div>
-            }
+            <Buttons />
+            <CreateForm ref={createRef} onsuccess={fetchRooms}/>
+            <RoomListcomponent />
             <Footer />
             <ToastContainer theme='dark' />
         </div>

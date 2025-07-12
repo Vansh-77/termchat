@@ -3,7 +3,8 @@ import { useRoomStore } from '../store/RoomStore';
 
 const RoomCard = ({ item, onJoin }) => {
 
-  const {password , setpassword} = useRoomStore();
+  const {password, setpassword} = useRoomStore();
+  
   const color = item.isPrivate ? 'bg-orange-600' : 'bg-green-500';
 
   return (
