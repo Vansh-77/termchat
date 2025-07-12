@@ -3,7 +3,7 @@ import {Server} from "socket.io"
 import http from "node:http"
 import cors from 'cors';
 import { connectDB } from "./config/db.js";
-import socket from "./socket/index.js";
+import socket from "./socket/socket.js";
 import roomRoutes from "./routes/room.route.js";
 
 const app = express();
