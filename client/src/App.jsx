@@ -62,16 +62,16 @@ const App = () => {
     }
 
     const Buttons = () => {
-        return (<div className='flex h-120 flex-col md:flex-row w-screen md:justify-center md:gap-50 gap-10 items-center text-3xl p-10 '>
+        return (<div className='flex h-120 flex-col md:flex-row w-screen md:justify-center md:gap-50 gap-10 items-center md:text-3xl text-xl p-10 '>
             <div
                 onClick={() => { createRef.current.scrollIntoView({ behavior: "smooth", block: "center" }); }}
-                className='flex flex-row md:flex-col gap-2 items-center justify-center bg-[#5294FF] md:h-80 md:w-80 h-30 w-100  rounded-xl border-3 shadow-[6px_6px_0px_black] hover:cursor-pointer'>
+                className='flex flex-row md:flex-col gap-2 items-center justify-center bg-[#5294FF] md:h-80 md:w-80 h-30 w-80 rounded-xl border-3 shadow-[6px_6px_0px_black] hover:cursor-pointer'>
                 <FaTools size={40} />
                 Create Room
             </div>
             <div
                 onClick={() => { roomListRef.current.scrollIntoView({ behavior: "smooth",block:"center"}) }}
-                className='flex md:flex-col flex-row gap-2 items-center justify-center bg-[#5294FF] md:h-80 md:w-80 h-30 w-100  rounded-xl border-3 shadow-[6px_6px_0px_black] hover:cursor-pointer'>
+                className='flex md:flex-col flex-row gap-2 items-center justify-center bg-[#5294FF] md:h-80 md:w-80 h-30 w-80 rounded-xl border-3 shadow-[6px_6px_0px_black] hover:cursor-pointer'>
                 <FaSearch size={40} />
                 Join Room
             </div>
