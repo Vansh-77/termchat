@@ -70,7 +70,7 @@ const Chat = () => {
 
     return (
         <div className='fixed flex h-screen w-screen bg-black gap-5 text-green-500  font-mono'>
-            <div className='w-[80%] text-6xl border-2 border-dotted flex flex-col'>
+            <div className='md:w-[80%] w-[100%] text-6xl border-2 border-dotted flex md:flex-col flex-row'>
                 <div className='border-b-2 border-dotted h-max p-2 flex justify-between items-center'>
                     <p> #{RoomName}</p>
                     <button onClick={handleLeave} className='p-2 text-2xl bg-red-900 rounded-2xl hover:cursor-pointer' >Leave</button>
