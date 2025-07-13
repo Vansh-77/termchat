@@ -5,9 +5,24 @@ import { replace, useNavigate } from 'react-router';
 
 const Chat = () => {
     const navigate = useNavigate();
-    const { roomId, RoomName, roomMembers, username, password, chat, addMessage, setroomMembers } = useRoomStore();
+    const { roomId, RoomName, roomMembers, username, password, chat, addMessage, setroomMembers, reset } = useRoomStore();
     const [message, setMessage] = useState('');
     const messagesEndRef = useRef(null);
+
+    useEffect(() => {
+        const handleBeforeUnload = (e) => {
+            e.preventDefault();
+            e.returnValue = "";
+            socket.emit("leave-room", { roomId, username });
+            reset();
+        };
+
+        window.addEventListener("beforeunload", handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener("beforeunload", handleBeforeUnload);
+        };
+    }, [roomId, username]);
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -49,17 +64,17 @@ const Chat = () => {
             setMessage('');
         }
     }
-    const handleLeave = () =>{
-        navigate('/',{replace:true});
+    const handleLeave = () => {
+        navigate('/', { replace: true });
     }
 
     return (
         <div className='fixed flex h-screen w-screen bg-black gap-5 text-green-500  font-mono'>
             <div className='w-[80%] text-6xl border-2 border-dotted flex flex-col'>
                 <div className='border-b-2 border-dotted h-max p-2 flex justify-between items-center'>
-                   <p> #{RoomName}</p>
-                   <button onClick={handleLeave} className='p-2 text-2xl bg-red-900 rounded-2xl hover:cursor-pointer' >Leave</button>
-                    </div>
+                    <p> #{RoomName}</p>
+                    <button onClick={handleLeave} className='p-2 text-2xl bg-red-900 rounded-2xl hover:cursor-pointer' >Leave</button>
+                </div>
                 <div className='flex flex-1 flex-col justify-between overflow-hidden'>
                     <div className='flex flex-col gap-2 overflow-y-auto p-2'>
                         {
