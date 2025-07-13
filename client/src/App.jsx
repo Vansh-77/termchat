@@ -30,7 +30,6 @@ const App = () => {
         }
     useEffect(() => {
         fetchRooms();
-        console.log(socket.connected);
     }, []);
 
     const handleJoinRoom = (room,password) => {
