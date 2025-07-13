@@ -9,7 +9,6 @@ const CreateForm = ({ ref, onsuccess }) => {
     const [pass, setpass] = useState("");
 
     const handleCreate = async () => {
-        console.log("dddd")
         try {
             const res = await fetch(`${import.meta.env.VITE_API_URL}/room/create`, {
                 method: "POST",
