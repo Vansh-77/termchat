@@ -9,6 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useRoomStore } from '../store/RoomStore';
 import { useNavigate } from 'react-router';
 import CreateForm from '../components/CreateForm';
+import "dotenv/config"
 
 const App = () => {
     const navigate = useNavigate();
@@ -23,7 +24,7 @@ const App = () => {
         sessionStorage.clear();
     }, []);
     async function fetchRooms() {
-            const res = await fetch("http://localhost:3000/room/get");
+            const res = await fetch(`${process.env.API_URL}/room/get`);
             const data = await res.json();
             setRoomList(data.rooms);
         }

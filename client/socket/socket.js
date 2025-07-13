@@ -1,5 +1,9 @@
 import { io } from "socket.io-client";
-const socket = io("http://localhost:3000",{
+import "dotenv/config"
+
+const socket = io(process.env.API_URL,{
     autoConnect:true,
+    transports:["websockets"],
+    secure:true,
 });
 export default socket;
