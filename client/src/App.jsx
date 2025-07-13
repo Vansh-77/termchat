@@ -44,6 +44,7 @@ const App = () => {
             toast.error("Please enter the password for the private room");
             return;
         }
+        console.log("iiii")
         socket.emit('joinRoom', { roomId, username, password });
         socket.once('error', (message) => {
             toast.error(message);
