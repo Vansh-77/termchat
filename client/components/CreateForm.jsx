@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { toast } from "react-toastify"
 import { useRoomStore } from '../store/RoomStore';
-import "dotenv/config"
 
 const CreateForm = ({ ref, onsuccess }) => {
     const { username, setusername } = useRoomStore();
@@ -12,7 +11,7 @@ const CreateForm = ({ ref, onsuccess }) => {
     const handleCreate = async () => {
         console.log("dddd")
         try {
-            const res = await fetch(`${process.env.API_URL}/room/create`, {
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/room/create`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
