@@ -54,7 +54,7 @@ const Chat = () => {
     }
 
     return (
-        <div className='fixed flex h-screen w-screen bg-black gap-5 text-green-500 p-5 font-mono'>
+        <div className='fixed flex h-screen w-screen bg-black gap-5 text-green-500  font-mono'>
             <div className='w-[80%] text-6xl border-2 border-dotted flex flex-col'>
                 <div className='border-b-2 border-dotted h-max p-2 flex justify-between items-center'>
                    <p> #{RoomName}</p>
@@ -88,7 +88,7 @@ const Chat = () => {
                     </div>
                 </div>
             </div>
-            <div className='flex flex-col gap-2 border-2 border-dotted flex-1 py-2 h-[50%] overflow-scroll'>
+            <div className='flex flex-col gap-2 border-2 border-dotted flex-1 py-2 h-[50%] overflow-y-auto'>
                 <div className='px-2 text-3xl'>Users</div>
                 <div className='border-t-2 border-dotted'></div>
                 <div className='flex flex-col gap-2 px-2 text-xl'>

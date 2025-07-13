@@ -6,7 +6,7 @@ const CreateForm = ({ref , onsuccess}) => {
     const {username , setusername} = useRoomStore();
     const [RoomName, setRoomName] = useState("");
     const [isPrivate, setisPrivate] = useState(false);
-    const [password, setpassword] = useState("");
+    const [pass, setpass] = useState("");
 
     const handleCreate = async () => {
         console.log("dddd")
@@ -20,7 +20,7 @@ const CreateForm = ({ref , onsuccess}) => {
                 name:RoomName,
                 createdBy:username,
                 isPrivate,
-                password
+                password:pass
             })
         });
         const data = await res.json();
@@ -63,8 +63,8 @@ const CreateForm = ({ref , onsuccess}) => {
             </div>
              { isPrivate &&   <div>
                 <p className='text-lg'>Enter Password</p>
-                <input value={password} onChange={(e)=>{
-                    setpassword(e.target.value)
+                <input value={pass} onChange={(e)=>{
+                    setpass(e.target.value)
                 }}  placeholder='Password' type="password" className='border-2 w-80 border-black shadow-[4px_4px_0px_black] rounded-xl bg-white p-2 outline-0' />
             </div>}
             <button 

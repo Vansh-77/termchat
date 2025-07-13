@@ -6,7 +6,7 @@ const Footer = () => {
         <div className="flex w-screen bg-white border-t-4 border-black h-20 items-center justify-between px-6 font-mono text-black text-sm">
             <div className='flex gap-3 items-center'>
             <p>Built By</p>
-            <a className='flex gap-1 items-center underline' href='https://x.com/vb1vb1vb1' target='_blank'><FaXTwitter/>Oreo</a>
+            <a className='flex gap-1 items-center border-b border-gray-500 hover:text-blue-600 hover:border-b-blue-600' href='https://x.com/vb1vb1vb1' target='_blank'><FaXTwitter/>@vb1vb1vb1</a>
             <p>Version: v1.0.0</p>
             </div>
             <div className="flex gap-4">

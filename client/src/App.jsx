@@ -15,7 +15,7 @@ const App = () => {
     const roomListRef = useRef(null)
     const [RoomList, setRoomList] = useState([]);
     const createRef = useRef(null);
-    const { roomId, username, setroomMembers, setusername, reset, setroomId, setRoomName } = useRoomStore();
+    const { roomId, username, setroomMembers, setusername, reset, setroomId, setRoomName, setpassword } = useRoomStore();
 
     useEffect(() => {
         socket.emit("leave-room", { roomId, username });
@@ -31,7 +31,7 @@ const App = () => {
         fetchRooms();
     }, []);
 
-    const handleJoinRoom = (room, password) => {
+    const handleJoinRoom = (room,password) => {
         const roomId = room.id;
         if (!username) {
             toast.error("please enter a username");
@@ -53,22 +53,22 @@ const App = () => {
         socket.once('success', (message) => {
             setroomId(roomId);
             setRoomName(room.name);
-            setMode(null);
+            setpassword(password);
             navigate('/chat');
         });
     }
 
     const Buttons = () => {
-        return (<div className='flex h-120 flex-row w-screen justify-center gap-50 items-center text-3xl '>
+        return (<div className='flex h-120 flex-col md:flex-row w-screen md:justify-center md:gap-50 gap-10 items-center text-3xl p-10 '>
             <div
                 onClick={() => { createRef.current.scrollIntoView({ behavior: "smooth", block: "center" }); }}
-                className='flex flex-col gap-2 items-center justify-center bg-[#5294FF] h-80 w-80 rounded-xl border-3 shadow-[6px_6px_0px_black] hover:cursor-pointer'>
+                className='flex flex-row md:flex-col gap-2 items-center justify-center bg-[#5294FF] md:h-80 md:w-80 h-30 w-100  rounded-xl border-3 shadow-[6px_6px_0px_black] hover:cursor-pointer'>
                 <FaTools size={40} />
                 Create Room
             </div>
             <div
-                onClick={() => { roomListRef.current.scrollIntoView({ behavior: "smooth" }) }}
-                className='flex flex-col gap-2 items-center justify-center bg-[#5294FF] h-80 w-80 rounded-xl border-3 shadow-[6px_6px_0px_black] hover:cursor-pointer'>
+                onClick={() => { roomListRef.current.scrollIntoView({ behavior: "smooth",block:"center"}) }}
+                className='flex md:flex-col flex-row gap-2 items-center justify-center bg-[#5294FF] md:h-80 md:w-80 h-30 w-100  rounded-xl border-3 shadow-[6px_6px_0px_black] hover:cursor-pointer'>
                 <FaSearch size={40} />
                 Join Room
             </div>
@@ -80,11 +80,10 @@ const App = () => {
         return (
             <div className='flex flex-col pt-0 p-10 min-h-120 items-center justify-start gap-10 w-screen'>
                 <h1 className='text-5xl'>Available Rooms</h1>
-                <div ref={roomListRef} />
-                <div className='flex flex-wrap w-[80%] gap-15 gap-x-20 justify-center'>
+                <div className='flex flex-wrap w-[90%] gap-15 gap-x-20 justify-center'>
+                     <div ref={roomListRef} />
                     {RoomList.map((room) => <RoomCard key={room.id} item={room} onJoin={handleJoinRoom} />)}
                 </div>
-
             </div>);
     }
     return (<>

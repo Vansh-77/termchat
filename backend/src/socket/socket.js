@@ -83,9 +83,6 @@ export default function (io) {
                 io.to(roomId).emit("roomMembers",members);
                 socket.emit("disconnected",`left room ${roomId}`)
             }
-            else{
-                socket.emit("error", "You are not a member of this room");
-            }
         });
     });
 }
