@@ -95,7 +95,7 @@ const App = () => {
             <div ref={usernameRef} className='flex items-center h-40'>
                 <input
                     type="text"
-                    className='outline-0 border-3 rounded-xl w-100 bg-[#5294FF] p-4 text-2xl border-black shadow-[6px_6px_0px_black]'
+                    className='outline-0 border-3 rounded-xl md:w-100 w-80 bg-[#5294FF] p-4 text-2xl border-black shadow-[6px_6px_0px_black]'
                     value={username}
                     onChange={(e) => { setusername(e.target.value) }}
                     placeholder='Enter your username'
