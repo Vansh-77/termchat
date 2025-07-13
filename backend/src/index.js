@@ -5,6 +5,7 @@ import cors from 'cors';
 import { connectDB } from "./config/db.js";
 import socket from "./socket/socket.js";
 import roomRoutes from "./routes/room.route.js";
+import "dotenv/config"
 
 const app = express();
 const server = http.createServer(app);
@@ -20,7 +21,7 @@ app.get("/", (req,res)=>{
 
 socket(io);
 
-server.listen(3000,()=>{
-    console.log("server running on http://localhost:3000");
+server.listen(process.env.PORT,()=>{
+    console.log("server running");
     connectDB();
 })
