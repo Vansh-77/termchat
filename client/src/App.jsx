@@ -14,6 +14,7 @@ import CreateForm from '../components/CreateForm';
 const App = () => {
     const navigate = useNavigate();
     const roomListRef = useRef(null)
+    const usernameRef = useRef(null)
     const [RoomList, setRoomList] = useState([]);
     const createRef = useRef(null);
     const { roomId, username, setroomMembers, setusername, reset, setroomId, setRoomName, setpassword } = useRoomStore();
@@ -36,6 +37,7 @@ const App = () => {
         const roomId = room.id;
         if (!username) {
             toast.error("please enter a username");
+            usernameRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
             return;
         }
         const Private = room.isPrivate;
@@ -91,7 +93,7 @@ const App = () => {
     return (<>
         <Navbar />
         <div className='flex flex-col items-center justify-center font-mono pt-20 bg-sky-100 bg-[linear-gradient(to_right,grey_1px,transparent_1px),linear-gradient(to_bottom,grey_1px,transparent_1px)] bg-[size:4rem_4rem]'>
-            <div className='flex items-center h-40'>
+            <div ref={usernameRef} className='flex items-center h-40'>
                 <input
                     type="text"
                     className='outline-0 border-3 rounded-xl w-100 bg-[#5294FF] p-4 text-2xl border-black shadow-[6px_6px_0px_black]'
